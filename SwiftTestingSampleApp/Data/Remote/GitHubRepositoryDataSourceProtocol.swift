@@ -5,6 +5,8 @@
 //  Created by 瀬山皐太 on 2025/06/03.
 //
 
+import Foundation
+
 protocol GitHubRepositoryDataSourceProtocol {
-    func fetchRepositories(quely: String) async throws -> [GitHubRepo]
+    func fetchRepositories(url: URL) async throws -> [GitHubRepo]
 }

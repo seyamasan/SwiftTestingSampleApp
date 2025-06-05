@@ -13,15 +13,7 @@ actor GitHubRepositoryDataSource: GitHubRepositoryDataSourceProtocol {
         let items: [GitHubRepo]
     }
     
-    func fetchRepositories(quely: String) async throws -> [GitHubRepo] {        
-        let encodedWord = quely.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        
-        let urlString = GitHubApi.baseSearchRepositoriesUrl + encodedWord
-        
-        guard let url = URL(string: urlString) else {
-            throw URLError(.badURL)
-        }
-
+    func fetchRepositories(url: URL) async throws -> [GitHubRepo] {
         let (data, _) = try await URLSession.shared.data(from: url)
         
         let result = try JSONDecoder().decode(SearchResponse.self, from: data)
