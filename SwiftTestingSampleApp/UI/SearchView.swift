@@ -12,8 +12,6 @@ struct SearchView: View {
     @State private var viewModel: SearchViewModel = DIContainer.shared.makeSearchViewModel()
     @State private var query: String = ""
     
-    @FocusState var focus: Bool
-        
     var body: some View {
         NavigationStack {
             VStack {
@@ -25,7 +23,6 @@ struct SearchView: View {
                         .padding(.leading, 8)
                     
                     TextField("Search Repository", text: $query)
-                        .focused(self.$focus)
                         .submitLabel(.search)
                         .onSubmit {
                             Task {
@@ -39,22 +36,33 @@ struct SearchView: View {
                         .fill(Color(.systemGray6))
                 )
                 .frame(width: UIScreen.main.bounds.width * 0.8)
-
-                // List of search results (検索結果リスト)
-                List(self.viewModel._repositories) { repo in
-                    VStack(alignment: .leading) {
-                        Text(repo.fullName)
-                            .font(.headline)
+                
+                if (self.viewModel._isSearching) {
+                    Spacer()
+                    ProgressView()
+                        .scaleEffect(2.0)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    Spacer()
+                } else {
+                    // List of search results (検索結果リスト)
+                    List(self.viewModel._repositories) { repo in
+                        NavigationLink {
+                            DetailView(repository: repo)
+                        } label: {
+                            HStack(spacing: 12) {
+                                AvatarImage(avatarUrl: repo.owner?.avatarUrl)
+                                
+                                Text(repo.fullName)
+                                    .font(.headline)
+                                    .lineLimit(1)
+                            }
+                            .padding(.vertical, 8)
+                            .contentShape(Rectangle())
+                        }
                     }
+                    .scrollDismissesKeyboard(.immediately) // Scrolling hides the keyboard.
                 }
             }
-            .gesture(
-                TapGesture()
-                    .onEnded { _ in
-                        // Tap the screen to unfocus the keyboard. (画面タップでキーボードのフォーカスを外す)
-                        self.focus = false
-                    }
-            )
             .navigationTitle("GitHub Repository Search")
             .navigationBarTitleDisplayMode(.inline)
         }

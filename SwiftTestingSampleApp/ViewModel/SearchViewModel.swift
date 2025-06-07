@@ -13,12 +13,17 @@ class SearchViewModel {
     private let _repository: GitHubSearchRepositoryProtocol
     private(set) var _repositories: [GitHubRepo] = []
     
+    private(set) var _isSearching: Bool = false
+    
     init(repository: GitHubSearchRepositoryProtocol) {
         self._repository = repository
     }
         
     func searchRepositories(query: String) async {
         guard !query.isEmpty else { return }
+        
+        self._isSearching = true
+        defer { self._isSearching = false } // Hide the progress bar when you are done searching.
         
         do {
             let encodedWord = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
