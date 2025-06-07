@@ -34,7 +34,7 @@ class SearchViewModel {
                 throw URLError(.badURL)
             }
             
-            self._repositories = try await self._repository.fetchRepositories(url: url)
+            self._repositories = try await self._repository.fetchRepositories(request: URLRequest(url: url))
         } catch {
             print("エラー: \(error)")
         }

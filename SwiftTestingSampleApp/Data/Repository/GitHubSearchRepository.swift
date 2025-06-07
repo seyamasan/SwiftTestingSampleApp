@@ -15,7 +15,7 @@ class GitHubSearchRepository: GitHubSearchRepositoryProtocol {
         self._dataSource = dataSource
     }
     
-    func fetchRepositories(url: URL) async throws -> [GitHubRepo] {
-        try await self._dataSource.fetchRepositories(url: url)
+    func fetchRepositories(request: URLRequest) async throws -> [GitHubRepo] {
+        try await self._dataSource.fetchRepositories(request: request)
     }
 }

@@ -8,5 +8,5 @@
 import Foundation
 
 protocol GitHubSearchRepositoryProtocol {
-    func fetchRepositories(url: URL) async throws -> [GitHubRepo]
+    func fetchRepositories(request: URLRequest) async throws -> [GitHubRepo]
 }
