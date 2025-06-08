@@ -36,7 +36,20 @@ class SearchViewModel {
             
             self._repositories = try await self._repository.fetchRepositories(request: URLRequest(url: url))
         } catch {
-            print("エラー: \(error)")
+            if let urlError = error as? URLError {
+                print("""
+                    URLError:
+                    Code: \(urlError.code.rawValue)
+                    Description: \(urlError.localizedDescription)
+                    
+                """)
+            } else {
+                print("""
+                    searchRepositories() Error!:
+                    Type: \(type(of: error))
+                    Description: \(error.localizedDescription)
+                """)
+            }
         }
     }
 }
