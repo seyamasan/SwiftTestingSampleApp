@@ -17,7 +17,7 @@ struct GitHubRepositoryDataSourceTests {
     
     static func setUp() -> URLSession {
         // Make Fake for testing.(テストに必要なFakeを作っておく)
-        URLProtocolFake.testURLs = [
+        FakeURLProtocol.testURLs = [
             URL(string: "https://test.com/single"): GitHubRepositoryFakeData.singleResponse.data(using: .utf8)!,
             URL(string: "https://test.com/multiple"): GitHubRepositoryFakeData.multipleResponse.data(using: .utf8)!,
             URL(string: "https://test.com/empty"): GitHubRepositoryFakeData.emptyResponse.data(using: .utf8)!,
@@ -25,7 +25,7 @@ struct GitHubRepositoryDataSourceTests {
         ]
         
         let config = URLSessionConfiguration.default
-        config.protocolClasses = [URLProtocolFake.self]
+        config.protocolClasses = [FakeURLProtocol.self]
         return URLSession(configuration: config)
     }
     
@@ -47,11 +47,14 @@ struct GitHubRepositoryDataSourceTests {
         func successSingleRepository(
             request: URLRequest // Create a request with the FakeURL you created.(作っておいたFakeURLでリクエストを作成)
         ) async throws {
+            // Given
             // Initialize data source using fake session.(Fakeセッションを使用してデータソースを初期化)
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
+            // When
             let repositories = try await dataSource.fetchRepositories(request: request)
             
+            // Then
             // Verify results.(結果を検証)
             #expect(repositories.count == 1)
             #expect(repositories[0].fullName == "test/repo")
@@ -67,10 +70,13 @@ struct GitHubRepositoryDataSourceTests {
             URLRequest(url: URL(string: "https://test.com/multiple")!)
         ])
         func successMultipleRepositories(request: URLRequest) async throws {
+            // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
-                    
+            
+            // When
             let repositories = try await dataSource.fetchRepositories(request: request)
             
+            // Then
             #expect(repositories.count == 2)
             #expect(repositories[0].fullName == "test/repo1")
             #expect(repositories[0].language == "Swift")
@@ -93,10 +99,13 @@ struct GitHubRepositoryDataSourceTests {
             URLRequest(url: URL(string: "https://test.com/empty")!)
         ])
         func successEmptyRepositories(request: URLRequest) async throws {
+            // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
                     
+            // When
             let repositories = try await dataSource.fetchRepositories(request: request)
             
+            // Then
             #expect(repositories.count == 0)
         }
     }
@@ -115,10 +124,13 @@ struct GitHubRepositoryDataSourceTests {
             URLRequest(url: URL(string: "https://test.com/invalid_json")!)
         ])
         func failureInvalidJSON(request: URLRequest) async throws {
+            // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
+            // Then
             // Verify that DecodingError is thrown(DecodingErrorがスローされることを検証)
             await #expect(throws: DecodingError.self) {
+                // When
                 _ = try await dataSource.fetchRepositories(request: request)
             }
         }

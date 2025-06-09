@@ -1,5 +1,5 @@
 //
-//  URLProtocolFake.swift
+//  FakeURLProtocol.swift
 //  SwiftTestingSampleApp
 //
 //  Created by 瀬山皐太 on 2025/06/07.
@@ -10,7 +10,7 @@ import Foundation
  Reference
  https://sussan-po.com/2022/08/17/mocking-url-session/#%E5%8F%82%E8%80%83%E3%81%AB%E3%81%99%E3%82%8B%E3%82%B5%E3%82%A4%E3%83%88
 */
-final class URLProtocolFake: URLProtocol {
+final class FakeURLProtocol: URLProtocol {
 
     static var testURLs = [URL?: Data]()
 
@@ -27,7 +27,7 @@ final class URLProtocolFake: URLProtocol {
     override func startLoading() {
         if
             let url = request.url,  // requestはInstance Property
-            let data = URLProtocolFake.testURLs[url]
+            let data = FakeURLProtocol.testURLs[url]
         {
             // Create a response(レスポンスを作って)
             let response = HTTPURLResponse(
