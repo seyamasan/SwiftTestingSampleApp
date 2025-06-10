@@ -34,11 +34,11 @@ struct GitHubSearchRepositoryTests {
                 ],
                 fakeError: nil
             )
-            
+            let repository = GitHubSearchRepository(dataSource: fakeDataSource)
             let fakeRequest = URLRequest(url: URL(string: "https://test.com/fake")!) // Anything.
             
             // When
-            let repositories = try await fakeDataSource.fetchRepositories(request: fakeRequest)
+            let repositories = try await repository.fetchRepositories(request: fakeRequest)
             
             // Then
             #expect(repositories.count == 1)
@@ -53,12 +53,13 @@ struct GitHubSearchRepositoryTests {
         func fetchRepositoriesError() async throws {
             // Given
             let fakeDataSource = FakeGitHubRepositoryDataSource(fakeResult:nil, fakeError: NSError(domain: "test", code: -1))
+            let repository = GitHubSearchRepository(dataSource: fakeDataSource)
             let fakeRequest = URLRequest(url: URL(string: "https://test.com/fake")!)
             
             // Then
             await #expect(throws: Error.self) {
                 // When
-                _ = try await fakeDataSource.fetchRepositories(request: fakeRequest)
+                _ = try await repository.fetchRepositories(request: fakeRequest)
             }
         }
     }
