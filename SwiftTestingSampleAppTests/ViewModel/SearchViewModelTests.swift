@@ -48,6 +48,7 @@ struct SearchViewModelTests {
             // Then
             #expect(viewModel._repositories.count == 1)
             #expect(viewModel._isSearching == false)
+            #expect(viewModel.errorMessage == nil)
         }
         
         @Test("Do not perform a search for an empty query")
@@ -61,6 +62,31 @@ struct SearchViewModelTests {
             // Then
             #expect(viewModel._repositories.count == 0)
             #expect(viewModel._isSearching == false)
+            #expect(viewModel.errorMessage == nil)
+        }
+    }
+    
+    @Suite(
+        "Abnormal"
+    )
+    struct AbnormalTests {
+        @Test("Search error")
+        func searchRepositoriesError() async throws {
+            // Given
+            let errorMessage = SearchError.searchError.getDescription()
+            let fakeRepository = FakeGitHubSearchRepository(
+                fakeResult: nil,
+                fakeError: FakeSearchViewModelError(message: errorMessage)
+            )
+            let viewModel = SearchViewModel(repository: fakeRepository)
+            
+            // When
+            await viewModel.searchRepositories(query: "Search Error")
+            
+            // Then
+            #expect(viewModel._repositories.count == 0)
+            #expect(viewModel._isSearching == false)
+            #expect(viewModel.errorMessage == errorMessage)
         }
     }
 }

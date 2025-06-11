@@ -15,6 +15,8 @@ class SearchViewModel {
     
     private(set) var _isSearching: Bool = false
     
+    var errorMessage: String? = nil
+    
     init(repository: GitHubSearchRepositoryProtocol) {
         self._repository = repository
     }
@@ -27,7 +29,6 @@ class SearchViewModel {
         
         do {
             let encodedWord = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            
             let urlString = GitHubApi.baseSearchRepositoriesUrl + encodedWord
             
             guard let url = URL(string: urlString) else {
@@ -36,20 +37,13 @@ class SearchViewModel {
             
             self._repositories = try await self._repository.fetchRepositories(request: URLRequest(url: url))
         } catch {
-            if let urlError = error as? URLError {
-                print("""
-                    URLError:
-                    Code: \(urlError.code.rawValue)
-                    Description: \(urlError.localizedDescription)
-                    
-                """)
-            } else {
-                print("""
-                    searchRepositories() Error!:
-                    Type: \(type(of: error))
-                    Description: \(error.localizedDescription)
-                """)
-            }
+            self.errorMessage = SearchError.searchError.getDescription()
+            
+            print("""
+                searchRepositories() Error!:
+                Type: \(type(of: error))
+                Description: \(error.localizedDescription)
+            """)
         }
     }
 }

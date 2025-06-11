@@ -65,6 +65,18 @@ struct SearchView: View {
             }
             .navigationTitle("GitHub Repository Search")
             .navigationBarTitleDisplayMode(.inline)
+            .alert("Error", isPresented: .init(
+                get: { self.viewModel.errorMessage != nil },
+                set: { _ in self.viewModel.errorMessage = nil }
+            )) {
+                Button("OK") {
+                    self.viewModel.errorMessage = nil
+                }
+            } message: {
+                if let errorMessage = self.viewModel.errorMessage {
+                    Text(errorMessage)
+                }
+            }
         }
     }
 }
