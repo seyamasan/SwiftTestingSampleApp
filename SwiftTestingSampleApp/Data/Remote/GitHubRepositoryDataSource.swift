@@ -20,9 +20,35 @@ actor GitHubRepositoryDataSource: GitHubRepositoryDataSourceProtocol {
     }
     
     func fetchRepositories(request: URLRequest) async throws -> [GitHubRepo] {
-        let (data, _) = try await self.session.data(for: request)
-        
-        let result = try JSONDecoder().decode(SearchResponse.self, from: data)
-        return result.items
+        do {
+            let (data, response) = try await self.session.data(for: request)
+            
+            guard let httpResponse = response as? HTTPURLResponse else {
+                throw GitHubAPIError.responseError
+            }
+            
+            switch httpResponse.statusCode {
+            case 200:
+                // Success
+                do {
+                    let result = try JSONDecoder().decode(SearchResponse.self, from: data)
+                    return result.items
+                } catch {
+                    throw GitHubAPIError.decodingError
+                }
+            case 400...499:
+                // Client Error
+                throw GitHubAPIError.cliantError
+            case 500...599:
+                // Server Error
+                throw GitHubAPIError.serverError
+            default:
+                throw GitHubAPIError.unknownError
+            }
+        } catch let error as GitHubAPIError {
+            throw error
+        } catch {
+            throw GitHubAPIError.networkError
+        }
     }
 }

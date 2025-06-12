@@ -70,23 +70,46 @@ struct SearchViewModelTests {
         "Abnormal"
     )
     struct AbnormalTests {
-        @Test("Search error")
-        func searchRepositoriesError() async throws {
+        
+        // I don't know how to force the error to occur.
+        // エラーを発生させる方法が分からないので、強制的に発生させる。
+        @Test("Invalid URL error.")
+        func searchRepositoriesInvalidURL() async throws {
             // Given
-            let errorMessage = SearchError.searchError.getDescription()
+            let fakeErrorMessage = CommonError.invalidURL.getDescription()
             let fakeRepository = FakeGitHubSearchRepository(
                 fakeResult: nil,
-                fakeError: FakeSearchViewModelError(message: errorMessage)
+                fakeError: URLError(.badURL)
             )
             let viewModel = SearchViewModel(repository: fakeRepository)
             
             // When
-            await viewModel.searchRepositories(query: "Search Error")
+            await viewModel.searchRepositories(query: "URL")
             
             // Then
             #expect(viewModel._repositories.count == 0)
             #expect(viewModel._isSearching == false)
-            #expect(viewModel.errorMessage == errorMessage)
+            #expect(viewModel.errorMessage == fakeErrorMessage)
+        }
+        
+        @Test("Unexpected Error")
+        func searchRepositoriesUnexpectedError() async throws {
+            // Given
+            let fakeError = CommonError.unexpectedError
+            let fakeErrorMessage = fakeError.getDescription()
+            let fakeRepository = FakeGitHubSearchRepository(
+                fakeResult: nil,
+                fakeError: fakeError
+            )
+            let viewModel = SearchViewModel(repository: fakeRepository)
+            
+            // When
+            await viewModel.searchRepositories(query: "Unexpected Error")
+            
+            // Then
+            #expect(viewModel._repositories.count == 0)
+            #expect(viewModel._isSearching == false)
+            #expect(viewModel.errorMessage == fakeErrorMessage)
         }
     }
 }

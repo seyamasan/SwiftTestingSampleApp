@@ -129,7 +129,7 @@ struct GitHubRepositoryDataSourceTests {
             
             // Then
             // Verify that DecodingError is thrown(DecodingErrorがスローされることを検証)
-            await #expect(throws: DecodingError.self) {
+            await #expect(throws: GitHubAPIError.decodingError) {
                 // When
                 _ = try await dataSource.fetchRepositories(request: request)
             }

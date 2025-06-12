@@ -29,21 +29,21 @@ class SearchViewModel {
         
         do {
             let encodedWord = query.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-            let urlString = GitHubApi.baseSearchRepositoriesUrl + encodedWord
+            let urlString = GitHubApiUrl.baseSearchRepositoriesUrl + encodedWord
             
             guard let url = URL(string: urlString) else {
                 throw URLError(.badURL)
             }
             
             self._repositories = try await self._repository.fetchRepositories(request: URLRequest(url: url))
-        } catch {
-            self.errorMessage = SearchError.searchError.getDescription()
             
-            print("""
-                searchRepositories() Error!:
-                Type: \(type(of: error))
-                Description: \(error.localizedDescription)
-            """)
+        } catch let error as GitHubAPIError {
+            self.errorMessage = error.getDescription()
+        } catch let error as URLError {
+            self.errorMessage = CommonError.invalidURL.getDescription()
+            print(error.localizedDescription)
+        } catch {
+            self.errorMessage = CommonError.unexpectedError.getDescription()
         }
     }
 }
