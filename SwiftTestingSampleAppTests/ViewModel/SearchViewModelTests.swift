@@ -71,10 +71,29 @@ struct SearchViewModelTests {
     )
     struct AbnormalTests {
         
+        @Test("An error of type GitHubAPIError should occur")
+        func failureGitHubAPIError() async throws {
+            // Given
+            let fakeError = GitHubAPIError.clientError
+            let fakeRepository = FakeGitHubSearchRepository(
+                fakeResult: nil,
+                fakeError: fakeError
+            )
+            let viewModel = SearchViewModel(repository: fakeRepository)
+            
+            // When
+            await viewModel.searchRepositories(query: "URL")
+            
+            // Then
+            #expect(viewModel._repositories.count == 0)
+            #expect(viewModel._isSearching == false)
+            #expect(viewModel.errorMessage == fakeError.getDescription())
+        }
+        
         // I don't know how to force the error to occur.
         // エラーを発生させる方法が分からないので、強制的に発生させる。
-        @Test("Invalid URL error.")
-        func searchRepositoriesInvalidURL() async throws {
+        @Test("Invalid URL error")
+        func failureInvalidURL() async throws {
             // Given
             let fakeErrorMessage = CommonError.invalidURL.getDescription()
             let fakeRepository = FakeGitHubSearchRepository(
@@ -93,10 +112,9 @@ struct SearchViewModelTests {
         }
         
         @Test("Unexpected Error")
-        func searchRepositoriesUnexpectedError() async throws {
+        func failureUnexpectedError() async throws {
             // Given
             let fakeError = CommonError.unexpectedError
-            let fakeErrorMessage = fakeError.getDescription()
             let fakeRepository = FakeGitHubSearchRepository(
                 fakeResult: nil,
                 fakeError: fakeError
@@ -109,7 +127,7 @@ struct SearchViewModelTests {
             // Then
             #expect(viewModel._repositories.count == 0)
             #expect(viewModel._isSearching == false)
-            #expect(viewModel.errorMessage == fakeErrorMessage)
+            #expect(viewModel.errorMessage == fakeError.getDescription())
         }
     }
 }

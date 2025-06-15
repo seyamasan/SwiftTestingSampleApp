@@ -38,7 +38,7 @@ actor GitHubRepositoryDataSource: GitHubRepositoryDataSourceProtocol {
                 }
             case 400...499:
                 // Client Error
-                throw GitHubAPIError.cliantError
+                throw GitHubAPIError.clientError
             case 500...599:
                 // Server Error
                 throw GitHubAPIError.serverError

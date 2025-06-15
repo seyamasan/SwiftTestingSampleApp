@@ -12,7 +12,7 @@ import Foundation
 */
 final class FakeURLProtocol: URLProtocol {
 
-    static var testURLs = [URL?: Data]()
+    static var testURLs = [URL?: (error: Error?, data: Data?, response: URLResponse?)]()
 
     override class func canInit(with request: URLRequest) -> Bool {
         // Mock all requests(全リクエストをモックする)
@@ -25,34 +25,28 @@ final class FakeURLProtocol: URLProtocol {
     }
 
     override func startLoading() {
-        if
-            let url = request.url,  // requestはInstance Property
-            let data = FakeURLProtocol.testURLs[url]
-        {
-            // Create a response(レスポンスを作って)
-            let response = HTTPURLResponse(
-                url: url,
-                statusCode: 200, // 200 == success
-                httpVersion: "HTTP/2",
-                headerFields: nil
-            )!
-
-            // Notifies the client that a response has been received(レスポンスを受信したことをクライアントに通知)
-            client?.urlProtocol(
-                self,
-                didReceive: response,
-                cacheStoragePolicy: .notAllowed
-            )
-
-            // Notify clients of data(データをクライアントに通知)
-            client?.urlProtocol(
-                self,
-                didLoad: data
-            )
-        }
+        if let url = self.request.url {
+            if let (error, data, response) = FakeURLProtocol.testURLs[url] {
+                 
+                 // Notify clients of response(レスポンスをクライアントに通知)
+                 if let responseStrong = response {
+                     self.client?.urlProtocol(self, didReceive: responseStrong, cacheStoragePolicy: .notAllowed)
+                 }
+                 
+                // Notify clients of data(データをクライアントに通知)
+                 if let dataStrong = data {
+                     self.client?.urlProtocol(self, didLoad: dataStrong)
+                 }
+                 
+                // Notify clients of error(エラーをクライアントに通知)
+                 if let errorStrong = error {
+                     self.client?.urlProtocol(self, didFailWithError: errorStrong)
+                 }
+             }
+         }
 
         // Notify end of loading(ローディングの終了を通知)
-        client?.urlProtocolDidFinishLoading(self)
+        self.client?.urlProtocolDidFinishLoading(self)
     }
 
     override func stopLoading() {

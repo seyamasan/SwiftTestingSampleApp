@@ -7,7 +7,7 @@
 
 enum GitHubAPIError: Error {
     case responseError
-    case cliantError
+    case clientError
     case serverError
     case decodingError
     case networkError
@@ -17,7 +17,7 @@ enum GitHubAPIError: Error {
         switch self {
         case .responseError:
             return "An error occurred during the search."
-        case .cliantError:
+        case .clientError:
             return "A client error has occurred."
         case .serverError:
             return "A server error has occurred."

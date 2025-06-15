@@ -52,12 +52,12 @@ struct GitHubSearchRepositoryTests {
         @Test("Propagation of errors")
         func fetchRepositoriesError() async throws {
             // Given
-            let fakeDataSource = FakeGitHubRepositoryDataSource(fakeResult:nil, fakeError: NSError(domain: "test", code: -1))
+            let fakeDataSource = FakeGitHubRepositoryDataSource(fakeResult:nil, fakeError: GitHubAPIError.clientError)
             let repository = GitHubSearchRepository(dataSource: fakeDataSource)
             let fakeRequest = URLRequest(url: URL(string: "https://test.com/fake")!)
             
             // Then
-            await #expect(throws: Error.self) {
+            await #expect(throws: GitHubAPIError.clientError) {
                 // When
                 _ = try await repository.fetchRepositories(request: fakeRequest)
             }
