@@ -24,20 +24,33 @@ final class SwiftTestingSampleAppUITests: XCTestCase {
 
     @MainActor
     func testExample() throws {
-        // UI tests must launch the application that they test.
+        // Launch the application.(アプリを起動する)
         let app = XCUIApplication()
         app.launch()
 
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+        let textfield = app.textFields["search.searchTextField"] // Get the UI elements of SearchView's TextField.(SearchViewのTextFieldのUI要素を取ってくる)
+        textfield.tap()
+        textfield.typeText("swift")
+        
+        // Tap the search button on the keyboard.(キーボードの検索ボタンをタップ)
+        app.keyboards.buttons["search"].tap()
+        
+        let loadingIndicator = app.activityIndicators["search.loadingIndicator"]
+        XCTAssertTrue(loadingIndicator.exists, "Loading indicator is not displayed.")
+        XCTAssertTrue(loadingIndicator.waitForNonExistence(timeout: 5))
+        
+        let list = app.collectionViews["search.repositoryList"]
+        // Waits for the specified time until the element is present.(要素が存在するまで指定された時間待機します)
+        XCTAssertTrue(list.waitForExistence(timeout: 5))
     }
 
-    @MainActor
-    func testLaunchPerformance() throws {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTApplicationLaunchMetric()]) {
-                XCUIApplication().launch()
-            }
-        }
-    }
+//    @MainActor
+//    func testLaunchPerformance() throws {
+//        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 7.0, *) {
+//            // This measures how long it takes to launch your application.
+//            measure(metrics: [XCTApplicationLaunchMetric()]) {
+//                XCUIApplication().launch()
+//            }
+//        }
+//    }
 }

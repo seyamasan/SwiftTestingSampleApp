@@ -15,7 +15,6 @@ struct SearchView: View {
     var body: some View {
         NavigationStack {
             VStack {
-
                 // Search bar
                 HStack {
                     Image(systemName: "magnifyingglass")
@@ -29,6 +28,7 @@ struct SearchView: View {
                                 await self.viewModel.searchRepositories(query: query)
                             }
                         }
+                        .accessibilityIdentifier("search.searchTextField")
                 }
                 .padding(16)
                 .background(
@@ -42,6 +42,7 @@ struct SearchView: View {
                     ProgressView()
                         .scaleEffect(2.0)
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
+                        .accessibilityIdentifier("search.loadingIndicator")
                     Spacer()
                 } else {
                     // List of search results (検索結果リスト)
@@ -61,6 +62,7 @@ struct SearchView: View {
                         }
                     }
                     .scrollDismissesKeyboard(.immediately) // Scrolling hides the keyboard.
+                    .accessibilityIdentifier("search.repositoryList")
                 }
             }
             .navigationTitle("GitHub Repository Search")
