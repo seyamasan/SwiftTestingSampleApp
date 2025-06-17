@@ -45,6 +45,11 @@
 			path = SwiftTestingSampleAppUITests;
 			sourceTree = "<group>";
 		};
+		D39687F62E018BBC00305060 /* TestHepler */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = TestHepler;
+			sourceTree = "<group>";
+		};
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +84,7 @@
 				D390E7742DEEE5EA0026278B /* SwiftTestingSampleAppUITests */,
 				D390E7582DEEE5E90026278B /* Products */,
 				D390E7592DEEE5E90026278B /* SwiftTestingSampleApp */,
+				D39687F62E018BBC00305060 /* TestHepler */,
 			);
 			sourceTree = "<group>";
 		};
@@ -109,6 +115,7 @@
 			);
 			fileSystemSynchronizedGroups = (
 				D390E7592DEEE5E90026278B /* SwiftTestingSampleApp */,
+				D39687F62E018BBC00305060 /* TestHepler */,
 			);
 			name = SwiftTestingSampleApp;
 			packageProductDependencies = (

@@ -26,18 +26,16 @@ final class SwiftTestingSampleAppUITests: XCTestCase {
     func testExample() throws {
         // Launch the application.(アプリを起動する)
         let app = XCUIApplication()
+        app.launchArguments.append("UI_TEST") // Added arguments passed to the application at startup.(起動時にアプリケーションに渡される引数を追加)
         app.launch()
 
         let textfield = app.textFields["search.searchTextField"] // Get the UI elements of SearchView's TextField.(SearchViewのTextFieldのUI要素を取ってくる)
         textfield.tap()
-        textfield.typeText("swift")
+        textfield.typeText("single")
         
         // Tap the search button on the keyboard.(キーボードの検索ボタンをタップ)
         app.keyboards.buttons["search"].tap()
         
-        let loadingIndicator = app.activityIndicators["search.loadingIndicator"]
-        XCTAssertTrue(loadingIndicator.exists, "Loading indicator is not displayed.")
-        XCTAssertTrue(loadingIndicator.waitForNonExistence(timeout: 5))
         
         let list = app.collectionViews["search.repositoryList"]
         // Waits for the specified time until the element is present.(要素が存在するまで指定された時間待機します)
