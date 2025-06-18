@@ -20,17 +20,22 @@ struct DetailView: View {
                     size: 200
                 )
                 .frame(maxWidth: .infinity)
+                .accessibilityElement()
+                .accessibilityIdentifier("detail.avatarImage")
                 
                 // Repository Info
                 VStack(alignment: .leading, spacing: 12) {
                     Text(self.repository.fullName)
                         .font(.title)
                         .fontWeight(.bold)
+                        .accessibilityIdentifier("detail.fullName")
                     
                     if let language = self.repository.language {
                         HStack {
                             Image(systemName: "chevron.left.forwardslash.chevron.right")
+                                .accessibilityIdentifier("detail.languageImage")
                             Text(language)
+                                .accessibilityIdentifier("detail.languageText")
                         }
                         .foregroundColor(.secondary)
                     }
@@ -71,12 +76,15 @@ private struct StatView: View {
     var body: some View {
         VStack {
             HStack(spacing: 4) {
-                Image(systemName: iconName)
-                Text("\(value)")
+                Image(systemName: self.iconName)
+                    .accessibilityIdentifier("detail.statView.icon.\(self.label)")
+                Text("\(self.value)")
+                    .accessibilityIdentifier("detail.statView.value.\(self.label)")
             }
-            Text(label)
+            Text(self.label)
                 .font(.caption)
                 .foregroundColor(.secondary)
+                .accessibilityIdentifier("detail.statView.label.\(self.label)")
         }
     }
 }

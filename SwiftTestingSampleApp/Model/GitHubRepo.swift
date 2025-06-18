@@ -7,17 +7,15 @@
 
 import Foundation
 
-struct GitHubRepo: Decodable, Identifiable {
+struct GitHubRepo: Decodable, Hashable {
     
-    struct Owner: Decodable {
+    struct Owner: Decodable, Hashable {
         let avatarUrl: String
         
         enum CodingKeys: String, CodingKey {
             case avatarUrl = "avatar_url"
         }
     }
-
-    let id = UUID()
     
     let fullName: String
     let language: String?
