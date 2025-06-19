@@ -46,50 +46,10 @@ class DIContainer {
                 data: GitHubRepositoryFakeData.multipleResponse.data(using: .utf8)!,
                 response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)multiple")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
             ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)empty"): (
-                error: nil,
-                data: GitHubRepositoryFakeData.emptyResponse.data(using: .utf8)!,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)empty")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)network_error"): (
-                error: GitHubAPIError.networkError,
-                data: nil,
-                response: nil
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)response_error"): (
+            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error"): (
                 error: nil,
                 data: nil,
-                response: URLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)response_error")!, mimeType: nil, expectedContentLength: 0, textEncodingName: nil)
-            ),
-            URL(string: "https://test.com/invalid_json"): (
-                error: nil,
-                data: GitHubRepositoryFakeData.invalidJson.data(using: .utf8)!,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)invalid_json")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)client_error_1"): (
-                error: nil,
-                data: nil,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)client_error_1")!, statusCode: 400, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)client_error_2"): (
-                error: nil,
-                data: nil,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)client_error_2")!, statusCode: 499, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error_1"): (
-                error: nil,
-                data: nil,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error_1")!, statusCode: 500, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error_2"): (
-                error: nil,
-                data: nil,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error_2")!, statusCode: 599, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)unknown_error"): (
-                error: nil,
-                data: nil,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)unknown_error")!, statusCode: 300, httpVersion: nil, headerFields: nil)!
+                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error")!, statusCode: 500, httpVersion: nil, headerFields: nil)!
             )
         ]
         

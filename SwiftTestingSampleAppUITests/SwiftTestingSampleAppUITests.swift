@@ -6,6 +6,7 @@
 //
 
 import XCTest
+@testable import SwiftTestingSampleApp
 
 final class SwiftTestingSampleAppUITests: XCTestCase {
 
@@ -134,6 +135,40 @@ final class SwiftTestingSampleAppUITests: XCTestCase {
         XCTAssertEqual(valueStars.label, "100")
         XCTAssertEqual(valueWatchers.label, "50")
         XCTAssertEqual(valueForks.label, "25")
+    }
+    
+    @MainActor
+    func testSearchViewErrorAlert() throws {
+        // Given
+        let app = XCUIApplication()
+        app.launchArguments.append("UI_TEST")
+        app.launch()
+        
+        let errorMessage = "A server error has occurred."
+        
+        // When
+        let errorAlert = app.alerts["Error"]
+        let errorAlertMessage = errorAlert.staticTexts[errorMessage]
+        let errorAlertOkButton = errorAlert.buttons["OK"]
+        
+        let textfield = app.textFields["search.searchTextField"]
+        textfield.tap()
+        textfield.typeText("server_error")
+        app.keyboards.buttons["search"].tap()
+        
+        print(app.debugDescription)
+        
+        // Then
+        XCTAssertTrue(errorAlert.waitForExistence(timeout: 1))
+        XCTAssertTrue(errorAlertMessage.waitForExistence(timeout: 1))
+        XCTAssertTrue(errorAlertOkButton.waitForExistence(timeout: 1))
+        
+        // When
+        errorAlertOkButton.tap()
+        
+        // Then
+        XCTAssertFalse(errorAlertMessage.exists)
+        XCTAssertFalse(errorAlertOkButton.exists)
     }
 
     @MainActor
