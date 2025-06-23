@@ -17,7 +17,7 @@ struct CommonErrorTests {
     )
     struct NormalTests {
         @Test("Validate error messages obtained with getDescription()")
-        func testErrorDescriptions() async {
+        func testErrorDescriptions() {
             // Then
             #expect(CommonError.invalidURL.getDescription() == "Invalid URL.")
             #expect(CommonError.unexpectedError.getDescription() == "An unexpected error has occurred.")

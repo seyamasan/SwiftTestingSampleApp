@@ -17,7 +17,7 @@ struct GitHubAPIErrorTests {
     )
     struct NormalTests {
         @Test("Validate error messages obtained with getDescription()")
-        func testErrorDescriptions() async {
+        func testErrorDescriptions() {
             // Then
             #expect(GitHubAPIError.responseError.getDescription() == "An error occurred during the search.")
             #expect(GitHubAPIError.clientError.getDescription() == "A client error has occurred.")

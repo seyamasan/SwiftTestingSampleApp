@@ -174,7 +174,7 @@ struct GitHubRepositoryDataSourceTests {
         @Test("Network Error", arguments: [
             URLRequest(url: URL(string: "https://test.com/network_error")!)
         ])
-        func failureNetworkError(request: URLRequest) async throws {
+        func failureNetworkError(request: URLRequest) async {
             // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
@@ -189,7 +189,7 @@ struct GitHubRepositoryDataSourceTests {
         @Test("Response Error", arguments: [
             URLRequest(url: URL(string: "https://test.com/response_error")!)
         ])
-        func failureResponseError(request: URLRequest) async throws {
+        func failureResponseError(request: URLRequest) async {
             // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
@@ -203,7 +203,7 @@ struct GitHubRepositoryDataSourceTests {
         @Test("Decord exception", arguments: [
             URLRequest(url: URL(string: "https://test.com/invalid_json")!)
         ])
-        func failureInvalidJSON(request: URLRequest) async throws {
+        func failureInvalidJSON(request: URLRequest) async {
             // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
@@ -218,7 +218,7 @@ struct GitHubRepositoryDataSourceTests {
             URLRequest(url: URL(string: "https://test.com/client_error_1")!),
             URLRequest(url: URL(string: "https://test.com/client_error_2")!),
         ]])
-        func failureClientError(requests: [URLRequest]) async throws {
+        func failureClientError(requests: [URLRequest]) async {
             // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
@@ -235,7 +235,7 @@ struct GitHubRepositoryDataSourceTests {
             URLRequest(url: URL(string: "https://test.com/server_error_1")!),
             URLRequest(url: URL(string: "https://test.com/server_error_2")!)
         ]])
-        func failureServerError(requests: [URLRequest]) async throws {
+        func failureServerError(requests: [URLRequest]) async {
             // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
@@ -251,7 +251,7 @@ struct GitHubRepositoryDataSourceTests {
         @Test("Unknown Error", arguments: [
             URLRequest(url: URL(string: "https://test.com/unknown_error")!)
         ])
-        func failureUnknownError(request: URLRequest) async throws {
+        func failureUnknownError(request: URLRequest) async {
             // Given
             let dataSource = GitHubRepositoryDataSource(session: self.fakeSession)
             
