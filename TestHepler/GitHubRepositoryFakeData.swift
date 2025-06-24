@@ -18,8 +18,7 @@ final class GitHubRepositoryFakeData {
                 },
                 "stargazers_count": 100,
                 "watchers_count": 50,
-                "forks_count": 25,
-                "open_issues_count": 10
+                "forks_count": 25
             }
         ]
     }
@@ -36,8 +35,7 @@ final class GitHubRepositoryFakeData {
                 },
                 "stargazers_count": 100,
                 "watchers_count": 50,
-                "forks_count": 25,
-                "open_issues_count": 10
+                "forks_count": 25
             },
             {
                 "full_name": "test/repo2",
@@ -47,8 +45,7 @@ final class GitHubRepositoryFakeData {
                 },
                 "stargazers_count": 200,
                 "watchers_count": 150,
-                "forks_count": 75,
-                "open_issues_count": 20
+                "forks_count": 75
             }
         ]
     }

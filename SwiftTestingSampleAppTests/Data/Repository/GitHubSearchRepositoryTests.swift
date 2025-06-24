@@ -28,8 +28,7 @@ struct GitHubSearchRepositoryTests {
                         owner: GitHubRepo.Owner(avatarUrl: "https://example.com/avatar.png"),
                         stargazersCount: 100,
                         watchersCount: 50,
-                        forksCount: 25,
-                        openIssuesCount: 10
+                        forksCount: 25
                     )
                 ],
                 fakeError: nil

@@ -97,8 +97,7 @@ private struct StatView: View {
             owner: GitHubRepo.Owner(avatarUrl: ""),
             stargazersCount: 1234,
             watchersCount: 567,
-            forksCount: 890,
-            openIssuesCount: 123
+            forksCount: 890
         )
     )
 }

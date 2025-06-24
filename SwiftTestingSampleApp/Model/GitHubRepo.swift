@@ -24,7 +24,6 @@ struct GitHubRepo: Decodable, Hashable {
     let stargazersCount: Int
     let watchersCount: Int
     let forksCount: Int
-    let openIssuesCount: Int
     
     enum CodingKeys: String, CodingKey {
         case fullName = "full_name"
@@ -33,6 +32,5 @@ struct GitHubRepo: Decodable, Hashable {
         case stargazersCount = "stargazers_count"
         case watchersCount = "watchers_count"
         case forksCount = "forks_count"
-        case openIssuesCount = "open_issues_count"
     }
 }

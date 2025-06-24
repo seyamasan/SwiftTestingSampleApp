@@ -114,7 +114,6 @@ struct GitHubRepositoryDataSourceTests {
             #expect(repositories[0].stargazersCount == 100)
             #expect(repositories[0].watchersCount == 50)
             #expect(repositories[0].forksCount == 25)
-            #expect(repositories[0].openIssuesCount == 10)
         }
         
         @Test("Gets multiple repositories", arguments: [
@@ -135,7 +134,6 @@ struct GitHubRepositoryDataSourceTests {
             #expect(repositories[0].stargazersCount == 100)
             #expect(repositories[0].watchersCount == 50)
             #expect(repositories[0].forksCount == 25)
-            #expect(repositories[0].openIssuesCount == 10)
             
             #expect(repositories[1].fullName == "test/repo2")
             #expect(repositories[1].language == "Kotlin")
@@ -143,7 +141,6 @@ struct GitHubRepositoryDataSourceTests {
             #expect(repositories[1].stargazersCount == 200)
             #expect(repositories[1].watchersCount == 150)
             #expect(repositories[1].forksCount == 75)
-            #expect(repositories[1].openIssuesCount == 20)
         }
 
         @Test("Get empty result", arguments: [
