@@ -39,12 +39,12 @@ struct SearchView: View {
                 .frame(width: UIScreen.main.bounds.width * 0.8)
                 
                 if (self.viewModel._isSearching) {
-                    Spacer()
-                    ProgressView()
-                        .scaleEffect(2.0)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
-                        .accessibilityIdentifier("search.loadingIndicator")
-                    Spacer()
+                    ZStack {
+                        ProgressView()
+                            .scaleEffect(2.0)
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .accessibilityIdentifier("search.loadingIndicator")
+                    }
                 } else {
                     // List of search results (検索結果リスト)
                     List {
