@@ -41,7 +41,6 @@ class SearchViewModel {
             self.errorMessage = error.getDescription()
         } catch let error as URLError {
             self.errorMessage = CommonError.invalidURL.getDescription()
-            print(error.localizedDescription)
         } catch {
             self.errorMessage = CommonError.unexpectedError.getDescription()
         }
