@@ -58,4 +58,22 @@ final class GitHubRepositoryFakeData {
     """
     
     static let invalidJson = "invalidJson"
+    
+    static let gitHubSearchRepositoryForNormalTest: GitHubRepo = GitHubRepo(
+        fullName: "test/repo",
+        language: "Swift",
+        owner: GitHubRepo.Owner(avatarUrl: "https://example.com/avatar.png"),
+        stargazersCount: 100,
+        watchersCount: 50,
+        forksCount: 25
+    )
+    
+    static let searchViewModelForNormalTest: GitHubRepo = GitHubRepo(
+        fullName: "test/repo",
+        language: "Swift",
+        owner: GitHubRepo.Owner(avatarUrl: "https://example.com/avatar.png"),
+        stargazersCount: 100,
+        watchersCount: 50,
+        forksCount: 25
+    )
 }

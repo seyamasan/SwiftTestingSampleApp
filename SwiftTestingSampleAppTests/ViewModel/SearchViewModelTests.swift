@@ -16,16 +16,7 @@ struct SearchViewModelTests {
     
     static func setUpNormal() -> SearchViewModel {
         let fakeRepository = FakeGitHubSearchRepository(
-            fakeResult: [
-                GitHubRepo(
-                    fullName: "test/repo",
-                    language: "Swift",
-                    owner: GitHubRepo.Owner(avatarUrl: "https://example.com/avatar.png"),
-                    stargazersCount: 100,
-                    watchersCount: 50,
-                    forksCount: 25
-                )
-            ],
+            fakeResult: [GitHubRepositoryFakeData.searchViewModelForNormalTest],
             fakeError: nil
         )
         

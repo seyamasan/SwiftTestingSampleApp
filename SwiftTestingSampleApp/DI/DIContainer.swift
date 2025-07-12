@@ -27,34 +27,9 @@ class DIContainer {
     
     // DI for UI testing(UIテスト用のDI)
     private func makeUITestSearchViewModel() -> SearchViewModel {
-        let fakeUrlSession = self.setUpFakeURLSession()
+        let fakeUrlSession = GenerateFakeData.generateForUITest()
         let dataSource = GitHubRepositoryDataSource(session: fakeUrlSession)
         let repository = GitHubSearchRepository(dataSource: dataSource)
         return SearchViewModel(repository: repository)
-    }
-    
-    private func setUpFakeURLSession() -> URLSession {
-        // Make Fake for testing.(テストに必要なFakeを作っておく)
-        FakeURLProtocol.testURLs = [
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)single"): (
-                error: nil,
-                data: GitHubRepositoryFakeData.singleResponse.data(using: .utf8)!,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)single")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)multiple"): (
-                error: nil,
-                data: GitHubRepositoryFakeData.multipleResponse.data(using: .utf8)!,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)multiple")!, statusCode: 200, httpVersion: nil, headerFields: nil)!
-            ),
-            URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error"): (
-                error: nil,
-                data: nil,
-                response: HTTPURLResponse(url: URL(string: "\(GitHubApiUrl.baseSearchRepositoriesUrl)server_error")!, statusCode: 500, httpVersion: nil, headerFields: nil)!
-            )
-        ]
-        
-        let config = URLSessionConfiguration.default
-        config.protocolClasses = [FakeURLProtocol.self]
-        return URLSession(configuration: config)
     }
 }

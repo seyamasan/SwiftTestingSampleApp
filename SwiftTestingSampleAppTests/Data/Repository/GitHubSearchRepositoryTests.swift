@@ -21,16 +21,7 @@ struct GitHubSearchRepositoryTests {
         func fetchRepositoriesSuccess() async throws {
             // Given
             let fakeDataSource = FakeGitHubRepositoryDataSource(
-                fakeResult: [
-                    GitHubRepo(
-                        fullName: "test/repo",
-                        language: "Swift",
-                        owner: GitHubRepo.Owner(avatarUrl: "https://example.com/avatar.png"),
-                        stargazersCount: 100,
-                        watchersCount: 50,
-                        forksCount: 25
-                    )
-                ],
+                fakeResult: [GitHubRepositoryFakeData.gitHubSearchRepositoryForNormalTest],
                 fakeError: nil
             )
             let repository = GitHubSearchRepository(dataSource: fakeDataSource)
